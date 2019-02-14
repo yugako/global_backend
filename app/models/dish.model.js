@@ -11,7 +11,9 @@ const DishSchema = mongoose.Schema({
 	status: String,
 	action: String
 }, {
-	timestamps: true
-});
+	timestamps: true,
+	collection : 'dishes'
+}
+);
 
 module.exports = mongoose.model('Dish', DishSchema);
