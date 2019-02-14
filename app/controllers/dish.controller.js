@@ -3,23 +3,23 @@ const Dish = require('../models/dish.model.js');
 // Create and save new dish
 exports.create = (req, res) => {
 	// Validate request
-	if (!req.body) {
+	if (!req.body.title) {
 		return res.status(400).send({
-			message: 'Dish content cannot be empty'
+			message: 'Dish cannot be untitled'
 		});
 	}
 
 	//Create a dish
 	const dish = new Dish({
-		title: req.body.title || "Untitled dish",
-		quantity: req.body.quantity || 1,
-		price: req.body.price || 0,
-		excerpt: req.body.excerpt || "No short description",
-		description: req.body.description || "No description",
-		ingradients: req.body.ingradients || "Eat fresh air",
-		weight: req.body.weight || "Air has 0 weight",
-		status: req.body.status || 'Unprocessed',
-		action: req.body.action || "Take in order"
+		title: req.body.title,
+		quantity: req.body.quantity,
+		price: req.body.price,
+		excerpt: req.body.excerpt,
+		description: req.body.description,
+		ingradients: req.body.ingradients,
+		weight: req.body.weight,
+		status: req.body.status,
+		action: req.body.action
 	});
 
 	dish.save()
@@ -71,22 +71,22 @@ exports.findOne = (req, res) => {
 // Update selected dish
 exports.update = (req, res) => {
 	// Validate request
-	if (!req.body.content) {
+	if (!req.body) {
 		return res.status(400).send({
 			message: 'Dish content cannot be empty'
 		});
 	}
 	// Find dish and update it with the request body
 	Dish.findByIdAndUpdate(req.params.dishId, {
-		title: req.body.title || "Untitled dish",
-		quantity: req.body.quantity || 1,
-		price: req.body.price || 0,
-		excerpt: req.body.excerpt || "No short description",
-		description: req.body.description || "No description",
-		ingradients: req.body.ingradients || "Eat fresh air",
-		weight: req.body.weight || "Air has 0 weight",
-		status: req.body.status || 'Unprocessed',
-		action: req.body.action || "Take in order"
+		title: req.body.title,
+		quantity: req.body.quantity,
+		price: req.body.price,
+		excerpt: req.body.excerpt,
+		description: req.body.description,
+		ingradients: req.body.ingradients,
+		weight: req.body.weight,
+		status: req.body.status,
+		action: req.body.action
 	}, {new: true})
 	.then(dish => {
 		if (!dish) {
