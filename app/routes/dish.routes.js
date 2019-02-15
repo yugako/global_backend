@@ -1,6 +1,7 @@
 module.exports = (app) => {
-	const dishes = require('../controllers/dish.controller.js');
+	const Dishes = require('../controllers/dish.controller.js');
 
+	const dishes = new Dishes();
 	// Create a new dish
 	app.post('/dishes', dishes.create);
 
