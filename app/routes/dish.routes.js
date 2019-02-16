@@ -1,19 +1,22 @@
-module.exports = (app) => {
-	const Dishes = require('../controllers/dish.controller.js');
+const express = require('express');
+const router = express.Router();
 
-	const dishes = new Dishes();
-	// Create a new dish
-	app.post('/dishes', dishes.create);
+const Dishes = require('../controllers/dish.controller.js');
 
-	// Retrieve all dishes
-	app.get('/dishes', dishes.findAll);
+const dishes = new Dishes();
 
-	// Retrive a single dish with id
-	app.get('/dishes/:dishId', dishes.findOne);
+router.post('/dishes', dishes.create);
 
-	// Update dish with id
-	app.put('/dishes/:dishId', dishes.update);
+// Retrieve all dishes
+router.get('/dishes', dishes.findAll);
 
-	// Delete dish with id
-	app.delete('/dishes/:dishId', dishes.delete);
-}
+// Retrive a single dish with id
+router.get('/dishes/:dishId', dishes.findOne);
+
+// Update dish with id
+router.put('/dishes/:dishId', dishes.update);
+
+// Delete dish with id
+router.delete('/dishes/:dishId', dishes.delete);
+
+module.exports = router;
