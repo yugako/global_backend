@@ -3,7 +3,7 @@ const Order = require('../models/order.model.js');
 class Orders {
 	create (req, res) {
 		// Validate request
-		if (!req.body.name) {
+		if (!req.body) {
 			return res.status(400).send({
 				message: 'Order cannot be unnamed'
 			});
@@ -11,8 +11,8 @@ class Orders {
 
 		//Create a order
 		const order = new Order({
-			name: req.body.name,
-			password: req.body.password,
+			list: req.body.list,
+			price: req.body.price
 		});
 
 		order.save()
@@ -58,15 +58,15 @@ class Orders {
 	}
 	update (req, res) {
 		// Validate request
-		if (!req.body.name) {
+		if (!req.body) {
 			return res.status(400).send({
 				message: 'Order content cannot be unnamed'
 			});
 		}
 		// Find order and update it with the request body
 		Order.findByIdAndUpdate(req.params.orderId, {
-			name: req.body.name,
-			password: req.body.password,
+			list: req.body.list,
+			price: req.body.price
 		}, {new: true})
 		.then(order => {
 			if (!order) {
