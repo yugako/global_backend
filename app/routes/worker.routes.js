@@ -1,19 +1,23 @@
-module.exports = (app) => {
-	const Workers = require('../controllers/worker.controller.js');
+const express = require('express');
+const router = express.Router();
 
-	const workers = new Workers();
-	// Create a new worker
-	app.post('/workers', workers.create);
+const Workers = require('../controllers/worker.controller.js');
 
-	// Retrieve all workeres
-	app.get('/workers', workers.findAll);
+const workers = new Workers();
 
-	// Retrive a single worker with id
-	app.get('/workers/:workerId', workers.findOne);
+// Create a new worker
+router.post('/workers', workers.create);
 
-	// Update worker with id
-	app.put('/workers/:workerId', workers.update);
+// Retrieve all workeres
+router.get('/workers', workers.findAll);
 
-	// Delete worker with id
-	app.delete('/workers/:workerId', workers.delete);
-}
+// Retrive a single worker with id
+router.get('/workers/:workerId', workers.findOne);
+
+// Update worker with id
+router.put('/workers/:workerId', workers.update);
+
+// Delete worker with id
+router.delete('/workers/:workerId', workers.delete);
+
+module.exports = router;
