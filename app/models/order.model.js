@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const OrderSchema = mongoose.Schema({
-	name: String,
-	password: String,
+	list: Object,
+	price: String
 }, {
 	timestamps: true,
 	collection : 'orders'
