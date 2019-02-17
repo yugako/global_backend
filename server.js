@@ -5,10 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 // Configuring database
-const mongooseConnection = require('./app/mongoose.js');
-
-// Configuring server
-const serverConfig = require('./config/server.config.js');
+const mongooseConnection = require('./config/mongoose-connect.js');
 
 // Dishes routes
 const dishes = require('./app/routes/dish.routes.js');
@@ -21,6 +18,11 @@ const workers = require('./app/routes/worker.routes.js');
 
 // Create express app
 const app = express();
+
+// Configuring server
+
+const env = process.env.NODE_ENV || 'development';
+const config = require('./config/config')[env];
 
 // parse req of content-type - ...urlencoded
 app.use(bodyParser.urlencoded({extended: true}));
@@ -43,6 +45,6 @@ app.use('/', workers);
 
 // Listen requests
 
-app.listen(serverConfig.port, () => {
-	console.log(`Server running on port ${serverConfig.port}`);
+app.listen(config.server.port, () => {
+	console.log(`Server running on port ${config.server.port}`);
 })
