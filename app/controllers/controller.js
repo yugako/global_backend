@@ -1,3 +1,5 @@
+const { check, validationResult } = require('express-validator/check');
+
 class AppController {
 	constructor (model) {
 		this._model = model;
@@ -9,12 +11,11 @@ class AppController {
 	}
 	create (req, res) {
 		// Validate request
+		const errors = validationResult(req);
+		  if (!errors.isEmpty()) {
+		    return res.status(422).json({ errors: errors.array() });
+		  }
 		let obj = req.body;
-		if (!obj) {
-			return res.status(400).send({
-				message: 'Model cannot be untitled'
-			});
-		}
 
 		//Create a item
 		const object = new this._model(obj);
@@ -62,10 +63,10 @@ class AppController {
 	}
 	update (req, res) {
 		// Validate request
-		if (!req.body) {
-			return res.status(400).send({
-				message: 'Model content cannot be empty'
-			});
+		const errors = validationResult(req);
+
+		if (!errors.isEmpty()) {
+		    return res.status(422).json({ errors: errors.array() });
 		}
 		// Find item and update it with the request body
 		this._model.findByIdAndUpdate(req.params.itemId, req.body, {new: true})
