@@ -15,6 +15,8 @@ const orders = require('./app/routes/order.routes.js');
 
 // Workers routes
 const workers = require('./app/routes/worker.routes.js');
+// Auth routes
+const auth = require('./app/routes/auth');
 
 // Create express app
 const app = express();
@@ -42,6 +44,7 @@ app.use(cors());
 app.use('/', dishes);
 app.use('/', orders);
 app.use('/', workers);
+app.use('/workers/auth', auth);
 
 // Listen requests
 
