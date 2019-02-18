@@ -44,7 +44,7 @@ app.use(cors());
 app.use('/', dishes);
 app.use('/', orders);
 app.use('/', workers);
-app.use('/workers/auth', auth);
+app.use('/', auth);
 
 // Listen requests
 
