@@ -12,7 +12,9 @@ module.exports = function (passport) {
 	let opts = {};
 
 	opts.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme("jwt");
+	
 	opts.secretOrKey = settings.secret;
+
 	passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
 		WorkerModel.findOne({id: jwt_payload.id}, (err, worker) => {
 			if (err) {
