@@ -16,7 +16,7 @@ const WorkerSchema = mongoose.Schema({
 	collection : 'workers'
 });
 
-WorkerSchema.pre('save', (next) => {
+WorkerSchema.pre('save', function (next) {
 	let worker = this;
 
 	if (this.isModified('password') || this.isNew) {
@@ -24,7 +24,7 @@ WorkerSchema.pre('save', (next) => {
 			if (err) {
 				return next(err);
 			}
-			bcrypt.hash(worker.password, salt, null, (err, hash) => {
+			bcrypt.hash(worker.password, salt, null, function (err, hash) {
 				if (err) {
 					return next(err);
 				}
@@ -37,8 +37,8 @@ WorkerSchema.pre('save', (next) => {
 	}
 });
 
-WorkerSchema.methods.comparePassword = (passw, cb) => {
-	bcrypt.compare(passw, this.password, (err, isMatch) => {
+WorkerSchema.methods.comparePassword = function (passw, cb) {
+	bcrypt.compare(passw, this.password, function (err, isMatch) {
 		if (err) {
 			return cb(err);
 		}
