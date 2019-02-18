@@ -10,7 +10,7 @@ const OrderController = require('../controllers/order.controller.js');
 
 const orderCtrl = new OrderController(OrderModel);
 
-router.get('/orders', passport.authenticate('jwt', {session: false}), (req, res) => {
+router.get('/orders', passport.authenticate('jwt', {session: false}), function (req, res) {
 	let token = getToken(req.headers);
 	if (token) {
 		orderCtrl.findAll;
@@ -18,7 +18,8 @@ router.get('/orders', passport.authenticate('jwt', {session: false}), (req, res)
 		return res.status(403).send({success: false, msg: 'Unauthorized'});
 	}
 });
-router.get('/orders/:itemId', passport.authenticate('jwt', {session: false}), (req, res) => {
+
+router.get('/orders/:itemId', passport.authenticate('jwt', {session: false}), function (req, res) {
 	let token = getToken(req.headers);
 	if (token) {
 		orderCtrl.findOne;
@@ -29,7 +30,7 @@ router.get('/orders/:itemId', passport.authenticate('jwt', {session: false}), (r
 
 router.post('/orders', orderCtrl.create);
 
-router.put('/orders/:itemId', passport.authenticate('jwt', {session: false}), (req, res) => {
+router.put('/orders/:itemId', passport.authenticate('jwt', {session: false}), function (req, res) {
 	let token = getToken(req.headers);
 	if (token) {
 		orderCtrl.update;
@@ -38,7 +39,7 @@ router.put('/orders/:itemId', passport.authenticate('jwt', {session: false}), (r
 	}
 });
 
-router.delete('/orders/:itemId', passport.authenticate('jwt', {session: false}), (req, res) => {
+router.delete('/orders/:itemId', passport.authenticate('jwt', {session: false}), function (req, res) {
 	let token = getToken(req.headers);
 	if (token) {
 		orderCtrl.delete;
@@ -47,9 +48,9 @@ router.delete('/orders/:itemId', passport.authenticate('jwt', {session: false}),
 	}
 });
 
-getToken = (headers) => {
+getToken = function (headers) {
 	if (headers && headers.authorization) {
-		let parted = headers.authorization.split(' ');
+		var parted = headers.authorization.split(' ');
 		    if (parted.length === 2) {
 		      return parted[1];
 		    } else {

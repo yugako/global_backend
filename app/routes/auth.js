@@ -14,7 +14,7 @@ const router = express.Router();
 
 const Worker = require("../models/worker.model.js");
 
-router.post('/register', (req, res) => {
+router.post('/register', function (req, res) {
 	if (!req.body.name || !req.body.password) {
 		res.json({
 			success: false,
@@ -30,7 +30,7 @@ router.post('/register', (req, res) => {
 			if (err) {
 				return res.json({
 					success: false,
-					msg: 'Worker already exists'
+					msg: 'Worker already exists',
 				});
 			}
 			res.json({
@@ -41,10 +41,10 @@ router.post('/register', (req, res) => {
 	}
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', function (req, res) {
 	Worker.findOne({
 		name: req.body.name
-	}, (err, worker) => {
+	}, function (err, worker) {
 		if (err) {
 			throw err;
 		}
@@ -55,7 +55,7 @@ router.post('/login', (req, res) => {
 			});
 		} else {
 			// If password mathches
-			worker.comparePassword(req.body.password, (err, isMatch) => {
+			worker.comparePassword(req.body.password, function (err, isMatch) {
 				if (isMatch && !err) {
 					// If everything ok
 					let token = jwt.sign(worker.toJSON(), settings.secret);
