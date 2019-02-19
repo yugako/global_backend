@@ -23,7 +23,8 @@ router.post('/register', function (req, res) {
 	} else {
 		let newWorker = new Worker({
 			name: req.body.name,
-			password: req.body.password
+			password: req.body.password,
+			role: req.body.role || 'stuff'
 		});
 		// Save new worker
 		newWorker.save(err => {
@@ -62,7 +63,9 @@ router.post('/login', function (req, res) {
 					// Return info including token as Json
 					res.json({
 						success: true,
-						token: 'JWT' + token
+						token: 'JWT ' + token,
+						name: req.body.name,
+						role: req.body.role
 					});
 				} else {
 					res.status(401).send({
