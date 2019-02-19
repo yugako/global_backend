@@ -11,7 +11,7 @@ const settings = require('./settings');
 module.exports = function (passport) {
 	let opts = {};
 
-	opts.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme("jwt");
+	opts.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme('JWT');
 	
 	opts.secretOrKey = settings.secret;
 
