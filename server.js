@@ -15,6 +15,10 @@ const orders = require('./app/routes/order.routes.js');
 
 // Workers routes
 const workers = require('./app/routes/worker.routes.js');
+
+// Admins routes
+const admins = require('./app/routes/admin.routes.js');
+
 // Auth routes
 const auth = require('./app/routes/auth');
 
@@ -44,6 +48,7 @@ app.use(cors());
 app.use('/', dishes);
 app.use('/', orders);
 app.use('/', workers);
+app.use('/', admins);
 app.use('/', auth);
 
 // Listen requests
