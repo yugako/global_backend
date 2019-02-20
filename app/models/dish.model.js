@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const DishSchema = mongoose.Schema({
 	title: String,
+	img: String,
 	quantity: Number,
 	price: Number,
 	excerpt: String,
