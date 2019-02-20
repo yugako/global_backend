@@ -16,35 +16,6 @@ const Worker = require("../models/worker.model.js");
 
 const Admin = require("../models/admin.model.js");
 
-
-router.post('/register', function (req, res) {
-	if (!req.body.name || !req.body.password) {
-		res.json({
-			success: false,
-			msg: 'Please pass username and password' 
-		});
-	} else {
-		let newWorker = new Worker({
-			name: req.body.name,
-			password: req.body.password,
-			role: req.body.role || 'stuff'
-		});
-		// Save new worker
-		newWorker.save(err => {
-			if (err) {
-				return res.json({
-					success: false,
-					msg: 'Worker already exists',
-				});
-			}
-			res.json({
-				success: true,
-				msg: 'Successful created new user'
-			});
-		})
-	}
-});
-
 router.post('/login', function (req, res) {
 	Worker.findOne({
 		name: req.body.name
