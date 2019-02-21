@@ -1,91 +1,36 @@
-const mongoose = require('mongoose');
-
-const passport = require('passport');
-
-const settings = require('../../config/settings');
-
-require('../../config/passport')(passport);
-
 const express = require('express');
-
-const jwt = require('jsonwebtoken');
-
 const router = express.Router();
+const {check} = require('express-validator/check');
+const WorkerModel = require('../models/worker.model.js');
 
-const Worker = require("../models/worker.model.js");
+const Auth = require("../controllers/auth.controller.js");
 
-const Admin = require("../models/admin.model.js");
+const authWorkers = new Auth(WorkerModel);
 
-router.post('/login', function (req, res) {
-	Worker.findOne({
-		name: req.body.name
-	}, function (err, worker) {
-		if (err) {
-			throw err;
-		}
-		if (!worker) {
-			res.status(401).send({
-				success: false, 
-				msg: 'Authentication failed. User not found'
-			});
-		} else {
-			// If password mathches
-			worker.comparePassword(req.body.password, function (err, isMatch) {
-				if (isMatch && !err) {
-					// If everything ok
-					let token = jwt.sign(worker.toJSON(), settings.secret);
-					// Return info including token as Json
-					res.json({
-						success: true,
-						token: 'JWT ' + token,
-						name: req.body.name,
-						role: req.body.role
-					});
-				} else {
-					res.status(401).send({
-						success: false,
-						msg: 'Authentication failed. Wrong password.'
-					});
-				}
-			});
-		}
-	});
-});
+// route for register action
+router.post('/register', [
+		check('name').isLength({min: 3}),
+		check('password').isLength({min: 6})
+			.withMessage('Must be at least 6 chars long')
+			.matches(/\d/).withMessage('Must contain a number')
+	], authWorkers.register);
 
-router.post('/login-admin', function (req, res) {
-	Admin.findOne({
-		name: req.body.name
-	}, function (err, admin) {
-		if (err) {
-			throw err;
-		}
-		if (!admin) {
-			res.status(401).send({
-				success: false, 
-				msg: 'Authentication failed. User not found'
-			});
-		} else {
-			// If password mathches
-			admin.comparePassword(req.body.password, function (err, isMatch) {
-				if (isMatch && !err) {
-					// If everything ok
-					let token = jwt.sign(admin.toJSON(), settings.secret);
-					// Return info including token as Json
-					res.json({
-						success: true,
-						token: 'JWT ' + token,
-						name: req.body.name,
-						role: req.body.role
-					});
-				} else {
-					res.status(401).send({
-						success: false,
-						msg: 'Authentication failed. Wrong password.'
-					});
-				}
-			});
-		}
-	});
-});
+router.get('/users', authWorkers.findAll);
+
+router.get('/users/:itemId', authWorkers.findOne);
+
+router.put('/users/:itemId', [
+		check('name').isLength({min: 3}),
+		check('password').isLength({min: 6})
+	], authWorkers.update);
+
+router.delete('/users/:itemId', authWorkers.delete);
+
+// route for login action
+router.post('/login', authWorkers.login);
+
+// route for logout action
+router.get('/logout', authWorkers.logout);
+
 
 module.exports = router;
