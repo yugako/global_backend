@@ -1,4 +1,5 @@
 const { check, validationResult } = require('express-validator/check');
+const passport = require('passport');
 
 class AppController {
 	constructor (model) {
@@ -8,6 +9,7 @@ class AppController {
 		this.findOne = this.findOne.bind(this);
 		this.update = this.update.bind(this);
 		this.delete = this.delete.bind(this);
+		this.register = this.register.bind(this);
 	}
 	create (req, res) {
 		// Validate request
@@ -108,6 +110,38 @@ class AppController {
 		            message: "Could not delete item with id " + req.params.itemId
 		        });
 			})
+	}
+	logout (req, res) {
+	  req.logout();
+	  res.send('/');
+	}
+
+	login (req, res) {
+		passport.authenticate('local')(req, res, function () {
+		    res.send({
+		    	username: req.body.username, 
+		    	role: req.body.role
+			})
+		})
+	}
+	
+
+	register(req, res) {
+		const errors = validationResult(req);
+		  if (!errors.isEmpty()) {
+		    return res.status(422).json({ errors: errors.array() });
+		  }
+		let obj = req.body;
+
+	  this._model.register(new this._model(obj), obj.password, function(err, user) {
+	    if (err) {
+	      res.send(err)
+	    }
+
+	    passport.authenticate('local')(req, res, function () {
+	      res.send('Success');
+	    });
+	  });
 	}
 }
 
