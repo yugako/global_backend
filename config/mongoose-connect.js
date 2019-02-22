@@ -1,3 +1,5 @@
+const winston = require('./winston');
+
 //require mongoose module
 const mongoose = require('mongoose');
 const config = require('config');
@@ -12,14 +14,15 @@ module.exports = function(){
     mongoose.connect(dbUrl,{useNewUrlParser: true});
 
     mongoose.connection.on('connected', function(){
-        console.log(("Mongoose connection is open to ", dbUrl));
+        winston.log("info", `Mongoose connection is open to ${dbUrl}`);
+
     });
 
     mongoose.connection.on('error', function(err){
-        console.log(("Mongoose connection has occured "+err+" error"));
+        winston.log("error", `Mongoose connection has occured ${err} error`);
     });
 
     mongoose.connection.on('disconnected', function(){
-        console.log(("Mongoose connection is disconnected"));
+        winston.log("info", `Mongoose connection is disconnected`);
     });
 }
