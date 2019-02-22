@@ -1,5 +1,6 @@
 const { check, validationResult } = require('express-validator/check');
 const passport = require('passport');
+const AppError = require('./AppError');
 
 class AppController {
 	constructor (model) {
@@ -49,18 +50,10 @@ class AppController {
 						message: "Model not found id " + req.params.itemId
 					});
 				}
-
 				res.send(item);
 			}).catch(err => {
-				if(err.kind === 'ObjectId') {
-					return res.status(404).send({
-						message: 'Model not found with id ' + req.params.itemId
-					});
-				}
-
-				return res.status(500).send({
-					message: 'Error retrieving item with id ' + req.params.itemId
-				})
+				let error = new AppError(err).report();
+				res.send(error);
 			})
 	}
 	update (req, res) {
@@ -75,20 +68,13 @@ class AppController {
 		.then(item => {
 			if (!item) {
 				return res.status(404).send({
-					message: "Model not found with id " + req.params.itemId
+					message: "Model not found with id "
 				});
 			}
 			res.send(item);
 		}).catch(err => {
-			if (err.kind === 'ObjectId') {
-				return res.status(404).send({
-					message: "Model not found with id " + req.params.itemId
-				})
-			}
-
-			return res.status(500).send({
-				message: 'Error updating item with id ' + req.params.itemId
-			})
+			let error = new AppError(err).report();
+				res.send(error);
 		})
 	}
 	delete (req, res) {
@@ -96,19 +82,13 @@ class AppController {
 			.then(item => {
 				if (!item) {
 					return res.status(404).send({
-						message: "Model not found with id " + req.params.itemId
+						message: "Model not found with id"
 					})
 				}
 				res.send({message: 'Model deleted successfully'});
 			}).catch(err => {
-				if(err.kind === 'ObjectId' || err.name === 'NotFound') {
-					return res.status(404).send({
-						message: "Model not found with id " + req.params.itemId
-					})
-				}
-				return res.status(500).send({
-		            message: "Could not delete item with id " + req.params.itemId
-		        });
+		        let error = new AppError(err).report();
+				res.send(error);
 			})
 	}
 	logout (req, res) {
