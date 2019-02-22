@@ -1,10 +1,10 @@
 //require mongoose module
 const mongoose = require('mongoose');
+const config = require('config');
 
-const env = process.env.NODE_ENV || 'development';
-const config = require('./config')[env];
+const dbConfig = config.get('Development.dbConfig');
 
-const dbUrl = `mongodb://${config.database.host}:${config.database.port}/${config.database.db}`;
+const dbUrl = `mongodb://${dbConfig.host}:${dbConfig.port}/${dbConfig.dbName}`;
 //require database URL from properties file
 //export this function and imported by server.js
 module.exports = function(){
