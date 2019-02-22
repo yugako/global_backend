@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
+const winston = require('./config/winston');
 const config = require('config');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -15,6 +17,9 @@ const routesInit = require('./app/routes/index');
 
 const serverConfig = config.get('Development.serverConfig');
 
+mongoConnect();
+
+app.use(morgan('combined', { stream: winston.stream }));
 app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -29,11 +34,11 @@ app.use(require('express-session')({
     saveUninitialized: false
 }));
 
-mongoConnect();
+
 passportConfig(app);
 routesInit(app);
 
 
 app.listen(serverConfig.port, () => {
-	console.log(`Server running on port ${serverConfig.port}`);
+	winston.log("info", `App listening at ${serverConfig.port}`);
 });
