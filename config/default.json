@@ -1,0 +1,14 @@
+{
+  // Development module configs
+  "Development": {
+    "dbConfig": {
+      "host": "localhost",
+      "port": 27017,
+      "dbName": "service"
+    },
+    "serverConfig": {
+      "host": "localhost",
+      "port": 3000,
+    }
+  }
+}
