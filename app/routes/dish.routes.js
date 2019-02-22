@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const {check} = require('express-validator/check');
+const Valid = require('../../config/validation');
 
 const DishModel = require('../models/dish.model.js');
 
@@ -13,17 +13,9 @@ router.get('/dishes', dishCtrl.findAll);
 
 router.get('/dishes/:itemId', dishCtrl.findOne);
 
-router.post('/dishes', [
-		check('title').isLength({ min: 3 }),
-		check('price').isNumeric(),
-		check('weight').isNumeric(),
-	], dishCtrl.create);
+router.post('/dishes', Valid.dishes, dishCtrl.create);
 
-router.put('/dishes/:itemId', [
-		check('title').isLength({ min: 3 }),
-		check('price').isNumeric(),
-		check('weight').isNumeric(),
-	], dishCtrl.update);
+router.put('/dishes/:itemId', Valid.dishes, dishCtrl.update);
 
 router.delete('/dishes/:itemId', dishCtrl.delete);
 
