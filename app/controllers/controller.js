@@ -99,8 +99,10 @@ class AppController {
 	login (req, res) {
 		passport.authenticate('local')(req, res, function () {
 		    res.send({
+		    	user: req.user,
 		    	username: req.body.username, 
-		    	role: req.body.role
+		    	role: req.body.role,
+		    	name: req.body.name,
 			})
 		})
 	}
