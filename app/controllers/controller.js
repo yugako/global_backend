@@ -86,7 +86,9 @@ class AppController {
 						message: "Your request object not found"
 					})
 				}
-				res.send({message: 'Object deleted successfully'});
+				res.send({
+					message: 'Object deleted successfully'
+				});
 			}).catch(err => {
 		        const error = new AppError(err).report();
 				res.send(error);
