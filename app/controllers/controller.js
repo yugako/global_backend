@@ -1,4 +1,4 @@
-const { check, validationResult } = require('express-validator/check');
+const {validationResult } = require('express-validator/check');
 const passport = require('passport');
 const AppError = require('./AppError');
 
@@ -28,7 +28,7 @@ class AppController {
 				res.send(data);
 			}).catch(err => {
 				res.status(500).send({
-					message: err.message || "Some error occured while creating the Model"
+					message: "Internal server error"
 				});
 			});
 	}
@@ -38,7 +38,7 @@ class AppController {
 				res.send(items);
 			}).catch(err => {
 				res.status(500).send({
-					message: err.message || "Some error occured while retrieving items"
+					message: "Internal server error"
 				})
 			})
 	}
@@ -47,12 +47,12 @@ class AppController {
 			.then(item => {
 				if (!item) {
 					return res.status(404).send({
-						message: "Model not found id " + req.params.itemId
+						message: "Your request object not found"
 					});
 				}
 				res.send(item);
 			}).catch(err => {
-				let error = new AppError(err).report();
+				const error = new AppError(err).report();
 				res.send(error);
 			})
 	}
@@ -68,29 +68,31 @@ class AppController {
 		.then(item => {
 			if (!item) {
 				return res.status(404).send({
-					message: "Model not found with id "
+					message: "Your request object not found"
 				});
 			}
 			res.send(item);
 		}).catch(err => {
-			let error = new AppError(err).report();
-				res.send(error);
+			const error = new AppError(err).report();
+			res.send(error);
 		})
 	}
+
 	delete (req, res) {
 		this._model.findByIdAndRemove(req.params.itemId)
 			.then(item => {
 				if (!item) {
 					return res.status(404).send({
-						message: "Model not found with id"
+						message: "Your request object not found"
 					})
 				}
-				res.send({message: 'Model deleted successfully'});
+				res.send({message: 'Object deleted successfully'});
 			}).catch(err => {
-		        let error = new AppError(err).report();
+		        const error = new AppError(err).report();
 				res.send(error);
 			})
 	}
+
 	logout (req, res) {
 	  req.logout();
 	  res.send('/');
@@ -99,10 +101,9 @@ class AppController {
 	login (req, res) {
 		passport.authenticate('local')(req, res, function () {
 		    res.send({
-		    	user: req.user,
-		    	username: req.body.username, 
-		    	role: req.body.role,
-		    	name: req.body.name,
+		    	username: req.user.username,
+		    	name: req.user.name,
+		    	role: req.body.role, 	
 			})
 		})
 	}
@@ -110,20 +111,20 @@ class AppController {
 
 	register(req, res) {
 		const errors = validationResult(req);
-		  if (!errors.isEmpty()) {
-		    return res.status(422).json({ errors: errors.array() });
-		  }
+	  	if (!errors.isEmpty()) {
+	    	return res.status(422).json({ errors: errors.array() });
+	 	}
 		let obj = req.body;
 
-	  this._model.register(new this._model(obj), obj.password, function(err, user) {
-	    if (err) {
-	      res.send(err)
-	    }
+	  	this._model.register(new this._model(obj), obj.password, function(err, user) {
+	    	if (err) {
+	      		res.send(err)
+	    	}
 
-	    passport.authenticate('local')(req, res, function () {
-	      res.send('Success');
-	    });
-	  });
+		    passport.authenticate('local')(req, res, function () {
+		      	res.send('Registration success');
+		    });
+	  	});
 	}
 }
 
