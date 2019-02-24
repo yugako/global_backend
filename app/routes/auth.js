@@ -10,7 +10,7 @@ const Auth = require("../controllers/auth.controller.js");
 const authWorkers = new Auth(WorkerModel);
 
 // route for register action
-router.post('/register', Valid.auth, authWorkers.register);
+router.post('/users', Valid.auth, authWorkers.register);
 
 router.get('/users', authWorkers.findAll);
 
