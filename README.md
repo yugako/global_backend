@@ -7,3 +7,7 @@ npm install
 npm start 
 
 Base url: http://localhost:3000
+
+# Get to api describe
+
+http://localhost:3000/api-docs
