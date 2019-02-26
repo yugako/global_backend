@@ -11,7 +11,8 @@ const routesInit = require('./app/routes/index');
 
 const appMiddleware = require('./app/appMiddleware');
 
-const serverConfig = config.get('Development.serverConfig');
+const serverConfig = config.get('server');
+
 appMiddleware(app);
 mongoConnect();
 

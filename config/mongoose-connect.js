@@ -4,9 +4,9 @@ const winston = require('./winston');
 const mongoose = require('mongoose');
 const config = require('config');
 
-const dbConfig = config.get('Development.dbConfig');
+const dbConfig = config.get('database');
 
-const dbUrl = `mongodb://${dbConfig.host}:${dbConfig.port}/${dbConfig.dbName}`;
+const dbUrl = `mongodb://${dbConfig.host}:${dbConfig.port}/${dbConfig.name}`;
 //require database URL from properties file
 //export this function and imported by server.js
 module.exports = function(){

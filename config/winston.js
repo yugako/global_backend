@@ -1,17 +1,20 @@
-const appRoot = require('app-root-path');
+const config = require('config');
 const winston = require('winston');
+
+const logs = config.get('log');
+const mode = config.get('server.mode');
 
 const logger = winston.createLogger({
   level: 'info',
   format: winston.format.json(),
   defaultMeta: { service: 'Restaurant service' },
   transports: [
-    new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
-    new winston.transports.File({ filename: 'logs/combined.log' })
+    new winston.transports.File({ filename: `${logs.path}${logs.error}`, level: 'error' }),
+    new winston.transports.File({ filename: `${logs.path}${logs.combined}` })
   ]
 });
 
-if (process.env.NODE_ENV !== 'production') {
+if (mode !== 'production') {
   logger.add(new winston.transports.Console({
     format: winston.format.simple()
   }));
