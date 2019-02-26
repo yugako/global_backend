@@ -1,5 +1,8 @@
 const swaggerJSDoc = require('swagger-jsdoc');
+const config = require('config');
 
+const port = config.get('server.port'),
+      host = config.get('server.host');
 // swagger definition
 const swaggerDefinition = {
     info: {
@@ -7,7 +10,7 @@ const swaggerDefinition = {
         version: '1.0.0',
         description: 'Describe RESTful API of Restaurant service',
     },
-    host: 'localhost:3000',
+    host: `${host}:${port}`,
     basePath: '/',
 };
 // options for the swagger docs
