@@ -1,23 +1,45 @@
 const AppController = require('../controllers/controller');
-/**
- * The App controller class where other controller inherits or
- * overrides pre defined and existing properties
- */
+const passport = require('passport');
+
 class AuthController extends AppController {
-	/**
-	 * @param {Model} model The default model object
-	 * for the controller. Will be required to create
-	 * an instance of the controller
-	 */
 	constructor(model) {
 		super(model);
+		this.register = this.register.bind(this);
 	}
-	/**
-	 * @param {Object} req The request object
-	 * @param {Object} res The response object
-	 * @param {function} next The callback to the next program handler
-	 * @return {Object} res The response object
-	 */
+	
+	logout (req, res) {
+	  req.logout();
+	  res.send('/');
+	}
+
+	login (req, res) {
+		passport.authenticate('local')(req, res, function () {
+		    res.send({
+		    	username: req.user.username,
+		    	name: req.user.name,
+		    	role: req.body.role, 	
+			})
+		})
+	}
+	
+
+	register(req, res) {
+		const errors = validationResult(req);
+	  	if (!errors.isEmpty()) {
+	    	return res.status(422).json({ errors: errors.array() });
+	 	}
+		let obj = req.body;
+
+	  	this._model.register(new this._model(obj), obj.password, function(err, user) {
+	    	if (err) {
+	      		res.send(err)
+	    	}
+
+		    passport.authenticate('local')(req, res, function () {
+		      	res.send('Registration success');
+		    });
+	  	});
+	}
 }
 
 module.exports =  AuthController;
