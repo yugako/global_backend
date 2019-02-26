@@ -5,7 +5,7 @@ const app = express();
 
 const mongoConnect = require('./config/mongoose-connect.js');
 
-const passportConfig = require('./config/passport.js');
+const passportConfig = require('./app/authorization/passportAuth.js');
 
 const routesInit = require('./app/routes/index');
 
