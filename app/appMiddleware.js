@@ -1,19 +1,22 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const swagger = require('../config/swagger');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-const path = require('path');
+
 const winston = require('../config/winston');
 
-module.exports = app => {
-    app.use(express.static(path.join(__dirname, '../public')));
+const swaggerUI = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./swagger.yaml');
 
-    app.get('/swagger.json', function (req, res) {
-        res.setHeader('Content-Type', 'application/json');
-        res.send(swagger);
-    });
+const options = {
+  customCss: '.swagger-ui .topbar { display: none }',
+};
+
+module.exports = app => {
+
+    app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument, options));
 
     app.use(morgan('combined', {
         stream: winston.stream
