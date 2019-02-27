@@ -1,6 +1,7 @@
 const {validationResult } = require('express-validator/check');
 const passport = require('passport');
 const AppError = require('./AppError');
+const winston = require('../../config/winston');
 
 class AppController {
 	constructor (model) {
@@ -15,7 +16,9 @@ class AppController {
 		// Validate request
 		const errors = validationResult(req);
 		  if (!errors.isEmpty()) {
-		    return res.status(422).json({ errors: errors.array() });
+		    return res.status(422).json({ 
+		    	errors: errors.array() 
+		    });
 		  }
 		let obj = req.body;
 
@@ -26,9 +29,9 @@ class AppController {
 			.then(data => {
 				res.send(data);
 			}).catch(err => {
-				res.status(500).send({
-					message: "Internal server error"
-				});
+				winston.log('error', err);
+				const error = new AppError('Internal server error', 500, 'The object could not be saved.');
+				res.send(error);
 			});
 	}
 	findAll(req, res) {
@@ -36,9 +39,9 @@ class AppController {
 			.then(items => {
 				res.send(items);
 			}).catch(err => {
-				res.status(500).send({
-					message: "Internal server error"
-				})
+				winston.log('error', err);
+				const error = new AppError('Internal server error', 500, 'The objects you are trying to show could not be found.');
+				res.send(error);
 			})
 	}
 	findOne (req, res) {
@@ -51,7 +54,8 @@ class AppController {
 				}
 				res.send(item);
 			}).catch(err => {
-				const error = new AppError(err).report();
+				winston.log('error', err);
+				const error = new AppError('OBJECT_NOT_FOUND', 404, 'Your request object not found');
 				res.send(error);
 			})
 	}
@@ -72,7 +76,8 @@ class AppController {
 			}
 			res.send(item);
 		}).catch(err => {
-			const error = new AppError(err).report();
+			winston.log('error', err);
+			const error = new AppError('OBJECT_NOT_FOUND', 404, 'The object you are trying to update could not be found.');
 			res.send(error);
 		})
 	}
@@ -89,7 +94,8 @@ class AppController {
 					message: 'Object deleted successfully'
 				});
 			}).catch(err => {
-		        const error = new AppError(err).report();
+		        winston.log('error', err);
+				const error = new AppError('OBJECT_NOT_FOUND', 404, 'The object you are trying to delete could not be found.');
 				res.send(error);
 			})
 	}
