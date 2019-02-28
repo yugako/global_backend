@@ -1,0 +1,532 @@
+swagger: "2.0"
+info:
+  description: "Restaurant service API description"
+  version: "1.0.0"
+  title: "Restaurant service"
+tags:
+ - name: "Users"
+   description: "Operations with users"
+ - name: "Dishes"
+   description: "Everything about Dishes"
+ - name: "Orders"
+   description: "Access to orders"
+paths:
+  /users/{id}:
+    put:
+      tags: 
+        - Users
+      description: Updates a single user
+      produces: application/json
+      parameters:
+        - name: id
+          description: Worker's id
+          in: path
+          required: true
+          type: string
+        - name: name
+          description: Full worker's name
+          in: formData
+          required: true
+          value: John Doe
+          type: string
+        - name: username
+          description:  Worker's login
+          in: formData
+          required: true
+          value: jodoe
+          type: string
+        - name: password
+          description: Worker's password
+          in: formData
+          required: true
+          value: jodo456
+          type: string
+        - name: role
+          description: Worker's role
+          in: formData
+          required: false
+          value: stuff
+          type: string  
+      responses:
+        200:
+          description: Successfully updated
+        404:
+          description: Object not found
+    get:
+      tags:
+        - Users
+      description: Returns single users
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          description: user's id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: An object of user
+        404:
+          description: Object not found 
+    delete:
+      tags:
+        - Users
+      description: Deletes a single user
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          description: user's id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successfully deleted
+        404:
+          description: Object not found
+  /users:
+      post:
+         tags:
+           - Users
+         description: Creates a new user
+         produces:
+           - application/json
+         parameters:
+           - name: name
+             description: Full user's name
+             in: formData
+             required: true
+             value: John Doe
+             type: string
+           - name: username
+             description:  Worker`s login
+             in: formData
+             required: true
+             value: jodoe
+             type: string
+           - name: password
+             description: Worker'`s password
+             in: formData
+             required: true
+             value: jodo456
+             type: string
+           - name: role
+             description: Worker'`s role
+             in: formData
+             required: false
+             value: stuff
+             type: string  
+         responses:
+           200:
+             description: Successfully created
+           500:
+             description: Internal server error
+      get:
+        tags:
+          - Users
+        description: Returns all users
+        produces:
+          - application/json
+        responses:
+          200:
+            description: An array of users
+  /login:
+    post:
+      tags:
+        - Users
+      description: login
+      produces:
+        - application/json
+      parameters:
+        - name: name
+          description: Full user's name
+          in: formData
+          required: false
+          value: John Doe
+          type: string
+        - name: username
+          description:  Worker`s login
+          in: formData
+          required: true
+          value: jodoe
+          type: string
+        - name: password
+          description: Worker'`s password
+          in: formData
+          required: true
+          value: jodo456
+          type: string
+        - name: role
+          description: Worker'`s role
+          in: formData
+          required: false
+          value: stuff
+          type: string  
+      responses:
+        200:
+          description: Successfully login
+        401:
+          description: Unauthorized
+        404:
+          description: Object not found 
+  /logout:
+    get:
+      tags:
+        - Users
+      description: Returns all users
+      produces:
+        - application/json
+      responses:
+        200:
+          description: Successfully logout         
+  /dishes:
+    get:
+      tags:
+        - Dishes
+      description: Returns all dishes
+      produces:
+        - application/json
+      responses:
+        200:
+          description: An array of dishes
+    post:
+        tags:
+          - Dishes
+        description: Creates a new dish
+        produces:
+          - application/json
+        parameters:
+          - name: title
+            description: Dish title
+            in: formData
+            required: true        
+            type: string
+          - name: img
+            description: Dish img
+            in: formData
+            required: false
+            type: string
+          - name: quantity
+            description: Dish quantity
+            in: formData
+            required: true
+            value: 1
+            type: number
+          - name: price
+            description: Dish price
+            in: formData
+            required: true
+            type: number
+          - name: excerpt
+            description: Dish excerpt
+            in: formData
+            required: true        
+            type: string
+          - name: description
+            description: Dish description
+            in: formData
+            required: true
+            type: string
+          - name: ingradients
+            description: Dish ingradients
+            in: formData
+            required: true
+            type: string
+          - name: weight
+            description: Dish weight
+            in: formData
+            required: true
+            type: number
+          - name: status
+            description: Dish status
+            in: formData
+            required: true
+            value: Unprocessed
+            type: string
+          - name: action
+            description: Dish status
+            in: formData
+            value: Take in order
+            required: true
+            type: string        
+        responses:
+          200:
+            description: Successfully created
+          500:
+            description: Internal server error
+  /dishes/{id}:
+    get:
+      tags:
+        - Dishes
+      description: Returns single dish
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          description: user's id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: An object of dish
+        404:
+          description: Object not found
+    put:
+      tags: 
+        - Dishes
+      description: Updates a single dish
+      produces: application/json
+      parameters:
+          - name: title
+            description: Dish title
+            in: formData
+            required: true        
+            type: string
+          - name: img
+            description: Dish img
+            in: formData
+            required: false
+            type: string
+          - name: quantity
+            description: Dish quantity
+            in: formData
+            required: true
+            value: 1
+            type: number
+          - name: price
+            description: Dish price
+            in: formData
+            required: true
+            type: number
+          - name: excerpt
+            description: Dish excerpt
+            in: formData
+            required: true        
+            type: string
+          - name: description
+            description: Dish description
+            in: formData
+            required: true
+            type: string
+          - name: ingradients
+            description: Dish ingradients
+            in: formData
+            required: true
+            type: string
+          - name: weight
+            description: Dish weight
+            in: formData
+            required: true
+            type: number
+          - name: status
+            description: Dish status
+            in: formData
+            required: true
+            value: Unprocessed
+            type: string
+          - name: action
+            description: Dish status
+            in: formData
+            value: Take in order
+            required: true
+            type: string        
+      responses:
+          200:
+            description: Successfully updated
+          404:
+            description: Not found
+          500:
+            description: Internal server error
+    delete:
+      tags:
+        - Dishes
+      description: Deletes a single dish
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          description: dish id
+          in: path
+          required: true
+          type: integer
+      responses:
+        200:
+          description: Successfully deleted
+  /orders:
+    get:
+      tags:
+        - Orders
+      description: Returns all orders
+      produces:
+        - application/json
+      responses:
+        200:
+          description: An array of users
+    post:
+      tags:
+        - Orders
+      description: Creates a new order
+      produces:
+        - application/json
+      parameters:
+        - name: title
+          description: Order's name
+          in: formData
+          required: true
+          type: string
+        - name: number
+          description: Order number
+          in: formData
+          required: true
+          type: number
+        - name: price
+          description: Order's price
+          in: formData
+          required: true
+          type: String
+        - name: status
+          description: Dish status
+          in: formData
+          required: true
+          value: Unprocessed
+          type: string
+        - name: action
+          description: Dish status
+          in: formData
+          value: Take in order
+          required: true
+          type: string
+        - name: action
+          description: Order worker
+          in: formData
+          required: false
+          type: string  
+      responses:
+        200:
+          description: Successfully created
+        500:
+          description: Internal server error
+  /orders/{id}:
+    get:
+      tags:
+        - Orders
+      description: Returns single order
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          description: order's id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: An object of order
+        404:
+          description: Object not found
+    put:
+      tags:
+        - Orders
+      description: Update an order
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          description: Order's id
+          in: path
+          required: true
+          type: string
+        - name: title
+          description: Order's name
+          in: formData
+          required: true
+          type: string
+        - name: number
+          description: Order number
+          in: formData
+          required: true
+          type: number
+        - name: price
+          description: Order's price
+          in: formData
+          required: true
+          type: String
+        - name: status
+          description: Dish status
+          in: formData
+          required: true
+          value: Unprocessed
+          type: string
+        - name: action
+          description: Dish status
+          in: formData
+          value: Take in order
+          required: true
+          type: string
+        - name: action
+          description: Order worker
+          in: formData
+          required: false
+          type: string 
+      responses:
+        200:
+          description: Successfully created
+        500:
+          description: Internal server error
+    delete:
+      tags:
+        - Orders
+      description: Deletes a single order
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          description: order's id
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: Successfully deleted
+        404:
+          description: Object not found
+definitions:
+  Users:
+    properties:
+      username:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+  Dishes:
+      properties:
+        title:
+          type: string
+        img:
+          type: string
+        quantity:
+          type: number
+        price:
+          type: number
+      excerpt:
+          type: string 
+  Orders:
+    properties:
+      title:
+        type: string
+      number:
+        type: number
+      price:
+        type: string
+      action:
+        type: string
+      status:
+        type: string
+      worker: 
+        type: strin
