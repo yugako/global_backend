@@ -1,3 +1,4 @@
+const {validationResult } = require('express-validator/check');
 const AppController = require('../controllers/controller');
 const passport = require('passport');
 

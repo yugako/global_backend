@@ -4,6 +4,7 @@ const OrderSchema = mongoose.Schema({
 	title: String,
 	number: Number,
 	price: String,
+	amount: Number,
 	action: String,
 	status: String,
 	worker: String
