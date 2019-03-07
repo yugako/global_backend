@@ -5,15 +5,10 @@ const config = require('config');
 const User = require('../app/models/worker.model');
 const dbConfig = config.get('database');
 
-const dbUrl = `mongodb://${dbConfig.host}:${dbConfig.port}/${dbConfig.name}`;
-
-
+// const dbUrl = `mongodb://${dbConfig.host}:${dbConfig.port}/${dbConfig.name}`;
 
 exports.up = function(next){
-	mongoose.connect(dbUrl);
-	mongoose.connection.on('connected', function(){
-	        console.log("info", `Mongoose connection is open to ${dbUrl}`);
-	});
+	mongoose.connect('mongodb://127.0.0.1:27017/service', {useNewUrlParser: true});
 
 	const adminUser = new User({
 		username: 'denystormborn',
@@ -26,6 +21,7 @@ exports.up = function(next){
        		mongoose.disconnect();  
        		return next(err);
     	}
+    	console.log('Saved');
     	mongoose.disconnect();  
 
  	});
