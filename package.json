@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "init": "MIGRATION_CONFIG_PATH=./migrations/config.js mongoose-migrate-2 up",
     "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
