@@ -1,26 +1,41 @@
-# Install dependecies
+# Restaurant service (cleient side)
 
+Open the terminal and follow the commands below
+
+### Install dependecies
+```
 npm install
-
-# Init database
-
+```
+### Init database
+```
 npm init
+```
 
-# Start server
-
+### Start server
+```
 npm start 
+```
+### Start server with docker
 
-# Base url: 
+```
+docker build -t delivery-server
+``` 
+```
+docker run -it -p 8080:8080 --rm --name server delivery-server
+```
+
+#### Default url: 
 http://localhost:3000
 
-# Get to api describe
+#### Get descriptions API
 
 http://localhost:3000/api-docs
 
-# Admin's default login/password
+#### Admin default login/password
 
 andrewlinorda/linorda123
 
-# Worker's default login/password
+#### Worker default login/password
 
 janegilbot/jabe45
+
