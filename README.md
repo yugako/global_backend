@@ -8,7 +8,7 @@ npm install
 ```
 ### Init database
 ```
-npm init
+npm up
 ```
 
 ### Start server
