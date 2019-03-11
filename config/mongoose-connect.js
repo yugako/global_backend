@@ -5,6 +5,7 @@ const config = require('config');
 const dbConfig = config.get('database');
 
 const dbUrl = `mongodb://${dbConfig.host}:${dbConfig.port}/${dbConfig.name}`;
+
 const options = {
   autoIndex: true, // Don't build indexes
   reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
@@ -21,7 +22,6 @@ module.exports = function(){
 
     mongoose.connection.on('connected', function(){
         winston.log("info", `Mongoose connection is open to ${dbUrl}`);
-
     });
 
     mongoose.connection.on('error', function(err){
