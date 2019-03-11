@@ -1,4 +1,4 @@
-# Restaurant service (cleient side)
+# Restaurant service (client side)
 
 Open the terminal and follow the commands below
 
